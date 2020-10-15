@@ -28,28 +28,33 @@ public class HResourcesDAO {
         try{
         Class.forName("org.postgresql.Driver");
         this.cn = java.sql.DriverManager.getConnection("jdbc:postgresql://localhost/gestorempleados", "postgres", "1234");
+            System.out.println("Clase encontrada");
         }catch(ClassNotFoundException ce){
             System.out.println("Class not found.");
         }catch(SQLException sqle){
             System.out.println("SQL ERROR: " + sqle.getMessage());
         }
     }
-    
+   
     //====== EMPLOYEE DAO =======
+    
+    
     
     public List<Employee> selectEmployees(){
         List<Employee> employees = new ArrayList<Employee>();
         
         try{
             Statement st = cn.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM empleado ORDER BY id;");
+            System.out.println("Statement creado");
+            ResultSet rs = st.executeQuery("SELECT e.id, e.nombre, e.ub_id, u.nombre AS ubiNombre, e.salario FROM empleado AS e, ubicacion AS u WHERE e.ub_id = u.id ORDER BY e.id;");
             while(rs.next()){
                 int id = rs.getInt("id");
                 String name = rs.getString("nombre");
                 int ubicationId = rs.getInt("ub_id");
+                String ubiName = rs.getString("ubiNombre");
                 double salary = rs.getDouble("salario");
                 
-                employees.add(new Employee(id, name, ubicationId, salary));
+                employees.add(new Employee(id, name, new Ubication(ubicationId, ubiName), salary));
             }
             st.close();           
         }catch(SQLException e){
@@ -63,7 +68,7 @@ public class HResourcesDAO {
         StringBuilder sb = new StringBuilder();
         int result = -1;
         sb.append("INSERT INTO empleado(nombre, ub_id, salario) VALUES ('");
-        sb.append(e.getName()).append("', ").append(e.getUbicationId()).append(", ")
+        sb.append(e.getName()).append("', ").append(e.getUbication().getId()).append(", ")
                 .append(e.getSalary()).append(");");
         try{
         Statement st = cn.createStatement();
@@ -79,7 +84,7 @@ public class HResourcesDAO {
         StringBuilder sb = new StringBuilder();
         int result = -1;
         sb.append("UPDATE empleado SET nombre='").append(emp.getName())
-                .append("', ub_id=").append(emp.getUbicationId())
+                .append("', ub_id=").append(emp.getUbication().getId())
                 .append(", salario=").append(emp.getSalary())
                 .append(" WHERE id=").append(id).append(";");
         try{

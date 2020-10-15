@@ -13,19 +13,19 @@ public class Employee {
     
     private int id;
     private String name;
-    private int ubicationId;
+    private Ubication ubication;
     private double salary;
     
-    public Employee(int id, String name, int ubicationId, double salary){
+    public Employee(int id, String name, Ubication ubication, double salary){
         this.id = id;
         this.name = name;
-        this.ubicationId = ubicationId;
+        this.ubication = ubication;
         this.salary = salary;
     }
     
     public Employee(String name, int ubicationId, double salary){
         this.name = name;
-        this.ubicationId = ubicationId;
+        this.ubication = ubication;
         this.salary = salary;
         
     }
@@ -46,12 +46,12 @@ public class Employee {
         this.name = name;
     }
 
-    public int getUbicationId() {
-        return ubicationId;
+    public Ubication getUbication() {
+        return ubication;
     }
 
-    public void setUbicationId(int ubicationId) {
-        this.ubicationId = ubicationId;
+    public void setUbication(Ubication ubication) {
+        this.ubication = ubication;
     }
 
     public double getSalary() {
