@@ -5,11 +5,13 @@
  */
 package com.fullstack888.gestorempleados.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author tecnara
  */
-public class Employee {
+public class Employee implements Serializable {
     
     private int id;
     private String name;
@@ -23,7 +25,7 @@ public class Employee {
         this.salary = salary;
     }
     
-    public Employee(String name, int ubicationId, double salary){
+    public Employee(String name, Ubication ubication, double salary){
         this.name = name;
         this.ubication = ubication;
         this.salary = salary;

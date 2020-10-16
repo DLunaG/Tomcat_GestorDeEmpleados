@@ -1,6 +1,8 @@
-<%@page import="com.fullstack888.gestorempleados.domain.Employee"%>
-<%@page import="java.util.List"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,26 +12,30 @@
     <body>
         <%@include file="/WEB-INF/layout/headboard.jsp" %>
         <h1>Employees</h1>
-        <% HttpSession mySession = request.getSession(false);
-        List<Employee> employees = (List<Employee>)mySession.getAttribute("employees");
-        %>
         <table border="1">
         <tbody>
             <tr>
                 <th>Id</th>
                 <th>Nombre</th>
                 <th>Ubicación</th>
+                <c:if test="${login.user.admin == true}">
+                    <th>Salario</th>
+                    <th>Acciones</th>
+                </c:if>
             </tr>
-            <% for(Employee e: employees){ %>
+            <c:forEach items="${employees}" var="e">
             <tr>
-                <td><%= e.getId() %></td>
-                <td><%= e.getName() %></td>
-                <td><%= e.getUbication().getName() %></td>
+                <td>${e.id}</td>
+                <td>${e.name}</td>
+                <td>${e.ubication.name}</td>
+                <c:if test="${login.user.admin == true}">
+                    <td>${e.salary}</td>
+                    <td>edit, delete</td>
+                </c:if>
             </tr>
-            <% } %>
+            </c:forEach>
         </tbody>
         </table>
-            
-            
+                
     </body>
 </html>

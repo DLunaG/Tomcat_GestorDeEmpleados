@@ -5,11 +5,13 @@
  */
 package com.fullstack888.gestorempleados.domain;
 
+import java.io.Serializable;
+
 /**
  *
  * @author tecnara
  */
-public class Ubication {
+public class Ubication implements Serializable{
     
     private int id;
     private String name;
@@ -18,10 +20,7 @@ public class Ubication {
         this.id = id;
         this.name = name;
     }
-    
-    public Ubication(String name){
-        this.name = name;
-    }
+
 
     public int getId() {
         return id;

@@ -1,5 +1,6 @@
 package com.fullstack888.gestorempleados.controller;
 
+import com.fullstack888.gestorempleados.domain.Login;
 import com.fullstack888.gestorempleados.domain.User;
 import com.fullstack888.gestorempleados.services.HResourcesService;
 import com.fullstack888.gestorempleados.services.UserService;
@@ -43,10 +44,8 @@ public class LoginServlet extends HttpServlet {
                 .collect(Collectors.toList());
         
         User userVerified = null;
-        boolean userIsAdmin = false;
         if(!usersVerified.isEmpty()){
             userVerified = usersVerified.get(0);
-            userIsAdmin = userVerified.isAdmin();
         }
         
         HttpSession mySession = request.getSession(true);
@@ -56,16 +55,9 @@ public class LoginServlet extends HttpServlet {
             rd.forward(request, response);
         }
         
-        if(userVerified != null && userIsAdmin){
-            mySession.setAttribute("user", userVerified);
-            HResourcesService hr = new HResourcesService();
-            mySession.setAttribute("employees", hr.selectEmployees());
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/employees.jsp");
-            rd.forward(request, response);
-        }
-        
-        if(userVerified != null && !userIsAdmin){
-            mySession.setAttribute("user", userVerified);
+        if(userVerified != null){
+            Login login = new Login(userVerified, true);
+            mySession.setAttribute("login", login);
             HResourcesService hr = new HResourcesService();
             mySession.setAttribute("employees", hr.selectEmployees());
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/employees.jsp");

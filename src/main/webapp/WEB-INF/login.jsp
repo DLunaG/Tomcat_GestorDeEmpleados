@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,11 +23,10 @@
           <br/>
           <input type="submit" value="Send">
         </form>  
+              
+        <c:if test="${not empty invalidMsg}">
+            <p style="color:red">${invalidMsg} Try again.</p>
+        </c:if>
         
-        <% HttpSession mySession = request.getSession(false);
-        String invalidMsg = (String)mySession.getAttribute("invalidMsg"); 
-        if (invalidMsg != null){%>
-        <p style="color:red"> <%= invalidMsg %> Try again.</p>
-        <% } %>
     </body>
 </html>

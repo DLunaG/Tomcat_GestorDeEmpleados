@@ -51,4 +51,22 @@ public class HResourcesService {
     public int deleteAnUbication(int id){
         return hr.deleteAnUbication(id);
     }
+    
+    public String findNameUbication(int id){
+        return hr.selectUbications()
+                .stream()
+                .filter(ubi -> ubi.getId() == id)
+                .findFirst()
+                .get()
+                .getName();
+    }
+    
+    public int findIdUbication(String ubiName){
+        return hr.selectUbications()
+                .stream()
+                .filter(ubi -> ubi.getName().equals(ubiName))
+                .findFirst()
+                .get()
+                .getId();
+    }
 }
